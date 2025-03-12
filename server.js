@@ -4,21 +4,23 @@ const cors = require('cors');
 
 // Initialize Express app
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+
+// This needs to be updated since files are now in the root
+app.use(express.static(path.join(__dirname, './')));
 
 // Debug route
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Server is working!' });
 });
 
-// Catch-all route
+// Catch-all route - updated for root directory
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, './index.html'));
 });
 
 // Start server with error handling
